@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+import { Nav } from 'react-bootstrap'
 
 const Detail = (props) => {
 
@@ -15,7 +16,7 @@ const Detail = (props) => {
   //     alert("숫자만 적으셈")
   //   }
   // }, [num])
-
+  let [탭, 탭변경] = useState(0)
 
 
   return (
@@ -41,8 +42,35 @@ const Detail = (props) => {
           <button className="btn btn-danger">주문하기</button> 
         </div>
       </div>
+
+      <Nav variant="tabs"  defaultActiveKey="link0">
+          <Nav.Item>
+            <Nav.Link onClick={() => { 탭변경(0) }} eventKey="link0">버튼0</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => { 탭변경(1) }} eventKey="link1">버튼1</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link onClick={() => { 탭변경(2) }} eventKey="link2">버튼2</Nav.Link>
+          </Nav.Item>
+      </Nav>
+      <TabContent tab={탭}/>
+
     </div> 
   )
 }
+
+const TabContent = ({tab}) => {
+
+  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
+  // if (tab == 0) {
+  //   return <div>내용0</div>
+  // } else if (tab == 1) {
+  //   return <div>내용1</div>
+  // } else if (tab == 2) {
+  //   return <div>내용2</div>
+  // }
+}
+  
 
 export default Detail;
