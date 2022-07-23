@@ -16,13 +16,21 @@ const Detail = (props) => {
   //     alert("숫자만 적으셈")
   //   }
   // }, [num])
-  let [탭, 탭변경] = useState(0)
+  let [tab, setTab] = useState(0)
+  let [fade2, setFade2] = useState('')
+
+  useEffect(() => {
+    setFade2('end')
+    return () => {
+      setFade2('')
+    }
+  }, [])
 
 
   return (
 
 
-    <div className="container">
+    <div className={"container start " + fade2}>
       {/* <input onChange={(e) => {setNum(e.target.value)}}></input>
       {
         alert == true
@@ -45,24 +53,36 @@ const Detail = (props) => {
 
       <Nav variant="tabs"  defaultActiveKey="link0">
           <Nav.Item>
-            <Nav.Link onClick={() => { 탭변경(0) }} eventKey="link0">버튼0</Nav.Link>
+            <Nav.Link onClick={() => { setTab(0) }} eventKey="link0">버튼0</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={() => { 탭변경(1) }} eventKey="link1">버튼1</Nav.Link>
+            <Nav.Link onClick={() => { setTab(1) }} eventKey="link1">버튼1</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Nav.Link onClick={() => { 탭변경(2) }} eventKey="link2">버튼2</Nav.Link>
+            <Nav.Link onClick={() => { setTab(2) }} eventKey="link2">버튼2</Nav.Link>
           </Nav.Item>
       </Nav>
-      <TabContent tab={탭}/>
+      <TabContent tab={tab}/>
 
     </div> 
   )
 }
 
 const TabContent = ({tab}) => {
+  let [fade, setFade] = useState('')
+  useEffect(() => {
+    setTimeout(() => {setFade('end')}, 100)
+    return () => {
+      setFade('')
+    }
+  }, [tab])
 
-  return [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab]
+  return ( 
+              // {'start ' + fade}
+  <div className={`start ${fade}`}> 
+    { [<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][tab] }
+  </div>
+  )
   // if (tab == 0) {
   //   return <div>내용0</div>
   // } else if (tab == 1) {

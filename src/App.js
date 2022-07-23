@@ -7,7 +7,8 @@ import axios from 'axios'
 
 import data from "./data.js";
 import Card from "./component/Card.js"
-import Detail from './pages/Detail';
+import Detail from './pages/Detail.js';
+import Cart from './pages/Cart.js'
 // import About from './pages/About';
 
 
@@ -19,6 +20,8 @@ function App() {
   let navigate = useNavigate();
   let [count, setCount] = useState(1)
   let [loading, setLoading] = useState(false)
+
+  let [재고] = useState([10, 11, 12])
 
   useEffect(() => {
     setTimeout(() => {setLoading(false)}, 2000)
@@ -72,7 +75,7 @@ function App() {
           </>
         } />
         <Route path='/detail/:id' element={<Detail shoes={shoes}/>} />
-
+        <Route path="/cart" element={<Cart/>} />
 
         {/* <Route path='/about' element={<About/>}>
           <Route path='member' element={<div>멤버임</div>} />
