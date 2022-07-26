@@ -16,12 +16,20 @@ import Cart from './pages/Cart.js'
 
 function App() {
 
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify( [] ))
+  }, [])
+
   let [shoes, setShoes] = useState(data)
   let navigate = useNavigate();
   let [count, setCount] = useState(1)
   let [loading, setLoading] = useState(false)
-
   let [재고] = useState([10, 11, 12])
+
+  let obj = {name: 'kim'}
+  localStorage.setItem('data', JSON.stringify(obj))
+  let 꺼낸거 = localStorage.getItem('data')
+  console.log(JSON.parse(꺼낸거).name)
 
   useEffect(() => {
     setTimeout(() => {setLoading(false)}, 2000)
@@ -37,6 +45,7 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link onClick={() => {navigate('/')}}>Home</Nav.Link>
             <Nav.Link onClick={() => {navigate('/detail')}}>Detail</Nav.Link>
+            <Nav.Link onClick={() => {navigate('/cart')}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
