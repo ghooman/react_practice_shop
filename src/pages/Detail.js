@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 import { Nav } from 'react-bootstrap'
-import { addItem } from './../store.js'
-import { useDispatch } from "react-redux";
+import { addItem, setItem } from './../store.js'
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Detail = (props) => {
@@ -22,19 +22,39 @@ const Detail = (props) => {
   let [tab, setTab] = useState(0)
   let [fade2, setFade2] = useState('')
   let dispatch = useDispatch()
+  let state = useSelector((state) => state.cart)
+  console.log(state)
+
+  let arrId = [];
+
+  for (let i = 0; i < state.length; i++) {
+    arrId.push(state[i].id)
+  }
+
+  console.log(arrId)
+
+  // useEffect(() => {
+  //   setFade2('end')
+  //   return () => {
+  //     setFade2('')
+  //   }
+  // }, [])
 
   useEffect(() => {
-    setFade2('end')
-    return () => {
-      setFade2('')
-    }
+    let 꺼낸거 = localStorage.getItem('watched')
+    꺼낸거 = JSON.parse(꺼낸거)
+    꺼낸거.push(찾은상품.id)
+    꺼낸거 = new Set(꺼낸거)
+    꺼낸거 = Array.from(꺼낸거)
+    console.log(꺼낸거)
+    localStorage.setItem('watched', JSON.stringify(꺼낸거))
   }, [])
 
 
   return (
 
 
-    <div className={"container start " + fade2}>
+    <div className="container">
       {/* <input onChange={(e) => {setNum(e.target.value)}}></input>
       {
         alert == true
@@ -45,14 +65,19 @@ const Detail = (props) => {
       <button onClick={() => {setCount(count + 1)}}>버튼</button> */}
       <div className="row">
         <div className="col-md-6">
-          <img src="https://codingapple1.github.io/shop/shoes1.jpg" alt="shoesImg" width="100%" />
+          <img src={"https://codingapple1.github.io/shop/shoes" + (찾은상품.id + 1) + ".jpg"} alt="shoesImg" width="100%" />
         </div>
         <div className="col-md-6">
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger" onClick={() => {
-            dispatch(addItem( {id: 찾은상품.id, name: 찾은상품.title, count: 1} ))
+          <button className="btn btn-danger" onClick={() => { 
+            if (!arrId.includes(찾은상품.id)) {
+                dispatch(addItem( {id: 찾은상품.id, name: 찾은상품.title, count: 1} ))
+            } else {
+              dispatch(setItem(찾은상품.id))
+            }
+            
           }}>주문하기</button> 
         </div>
       </div>
